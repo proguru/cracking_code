@@ -4,7 +4,7 @@
 
 */
 # include <stdio.h>
-
+# include <stdlib.h>
 
 #define vMax 100
 // edge struct
@@ -35,7 +35,7 @@ graph *g=NULL;
 void insertNode();
 char* parse(char ,char ,char* );
 edge* break_edges(char*);
-
+void my_strncpy(char* dest, char*src,int len);
 // main function
 // if a file is provided node and edge info is taken from there.
 int main(int argc, char * argv[]){
@@ -74,8 +74,10 @@ edge* break_edges(char* command){
     if(label==NULL || label2==NULL)
         return NULL;        
     edge * edges=malloc(sizeof(edge));
-    strncpy(edges->x,label,5);
-    strncpy(edges->y,label2,5);
+    memset(edges->x,'\0',5);
+    memset(edges->y,'\0',5);
+    //my_strncpy(edges->x,label,4);
+    //my_strncpy(edges->y,label2,4);
     free(label);
     free(label2);
     return edges;
@@ -101,10 +103,15 @@ char* parse(char begin, char end,char* command){
          
     int size_cp=end_num-begin_num+2;
     char *label=malloc(size_cp*sizeof(char));
-    strcpy(label,command+begin_num,size_cp-1);
+    strcnpy(label,command+begin_num,size_cp-1);
     printf("%s\n",label);
     return NULL; 
     
 }
 
-
+void my_strncpy(char* dest, char*src,int len){
+    int i;
+    for(i=0;i<len;i++){
+        *(dest+i)=*(src+i);
+    }
+}
