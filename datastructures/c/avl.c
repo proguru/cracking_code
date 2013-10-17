@@ -26,6 +26,11 @@ void free_bst(bstNode *);
 void print_bst(bstNode *temp);
 void insert_recursive(bstNode*,int );
 void delete_node();
+void identify_rotation(bstNode* );
+void left_left_rotation(bstNode* );
+void left_right_rotation(bstNode* );
+void right_left_rotation(bstNode* );
+void right_right_rotation(bstNode* );
 int main(){
     char command[20];
     memset(command,'\0',20);
@@ -111,6 +116,7 @@ void insert_recursive(bstNode*temp,int node){
             
             insert_recursive(temp->left,node);
             // insert height
+            identify_rotation(temp);
             int left,right;
             if(temp->right==NULL)
                 right=-1;
@@ -121,6 +127,7 @@ void insert_recursive(bstNode*temp,int node){
             else
                 left=temp->left->height;
             temp->height=1 + max(left,right); 
+                        
             
         }
         else{
@@ -133,13 +140,17 @@ void insert_recursive(bstNode*temp,int node){
             temp->parent=parent;
             temp->left=NULL;
             temp->right=NULL;
+            if(parent->height==0)
+                parent->height=1;
             parent=NULL;
+            //TODO: parent update is missed.
         }
     }
    else if(temp->id < node){
        if(temp->right !=NULL){
            insert_recursive(temp->right,node);
            // insert height
+            identify_rotation(temp);
             int left,right;
             if(temp->right==NULL)
                 right=-1;
@@ -161,6 +172,8 @@ void insert_recursive(bstNode*temp,int node){
            temp->parent=parent;
            temp->left=NULL;
            temp->right=NULL;
+           if(parent->height==0)
+                parent->height=1;
            parent=NULL;
         }
         
@@ -168,4 +181,75 @@ void insert_recursive(bstNode*temp,int node){
    else{
        printf("Duplicates not allowed.");
    }
+}
+
+
+
+// handling rotations.w
+void identify_rotation(bstNode* node){
+    // identify left or right. Then left->left, left->right, right->left right->right.    
+    int left,right;
+    if(node->left==NULL)
+        left=-1;
+    else
+        left=node->left->height;
+    if(node->right==NULL)
+        right=-1;
+    else
+        right=node->right->height;
+
+    if((left-right)>=2){
+        //identify if it is left->left rotate or left->right rotate.
+        bstNode* temp=node->left;
+        if(temp->left==NULL)
+            left=-1;
+        else
+            left=temp->left->height;
+        if(temp->right==NULL)
+            right=-1;
+        else
+            right=temp->right->height;
+
+        if(left>right)
+            left_left_rotation(node);
+        else
+            left_right_rotation(node);
+
+        temp=NULL;
+    }
+    if((right-left)>=2){
+        // identify if it is right->left rotate or right->right rotate.    
+        bstNode* temp=node->right;
+        if(temp->left==NULL)
+            left=-1;
+        else
+            left=temp->left->height;
+        if(temp->right==NULL)
+            right=-1;
+        else
+            right=temp->right->height;
+
+        if(left>right)
+            right_left_rotation(node);
+        else
+            right_right_rotation(node);
+        temp=NULL;
+    }
+}
+
+void left_left_rotation(bstNode* node){
+    printf("In left->left rotation \n");
+}
+
+void left_right_rotation(bstNode* node){
+    printf("In left->right rotation \n");
+}
+
+void right_left_rotation(bstNode* node){
+    printf("In right->left rotation \n");
+}
+
+void right_right_rotation(bstNode* node){
+
+    printf("In right->right rotation \n");
 }
