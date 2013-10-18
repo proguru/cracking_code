@@ -12,6 +12,7 @@ void rev_print(char *s){
 }
 int main(){
     char a[10];
+    memset(a,'\0',10);
     scanf("%s", a);
     printf("\n%c"); 
     printf("\n");
