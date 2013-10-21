@@ -225,8 +225,8 @@ void free_graph(){
 }
 
 
-void bfs(){
-
+void bfs(graph* g,char* root_vertex){
+    int parent[g->verticies];    
 
 }
 

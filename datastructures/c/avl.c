@@ -236,20 +236,136 @@ void identify_rotation(bstNode* node){
         temp=NULL;
     }
 }
-
+// 4 cases for rotation.
 void left_left_rotation(bstNode* node){
     printf("In left->left rotation \n");
+    bstNode* temp=NULL;
+    temp=node;
+    node=node->left;
+    temp->left=NULL;
+    temp->left=node->right;
+    node->right=NULL;
+    node->right=temp;
+    // setting parents and ancestors.
+    bstNode* ancestor=temp->parent;
+    temp->parent=node;
+    if(node->right->left!=NULL)// corner case.
+        node->right->left->parent=temp;
+    node->parent=ancestor;
+    // setting ancestors child.
+   if(ancestor!=NULL){ //corner case
+        if(ancestor->left==temp)
+           ancestor->left=node;
+        else
+            ancestor->right=node;
+    }
+    else // if ancestor is null head needs to be seat to node. corner case
+        head=node;
+        
+    // resetting temp and ancestor
+    ancestor=NULL;
+    temp=NULL;
+
 }
 
 void left_right_rotation(bstNode* node){
     printf("In left->right rotation \n");
+    bstNode* temp=node;
+    node=node->left->right;
+    temp->left->right=NULL;
+    temp->left->right=node->left;
+    node->left=NULL;
+    node->left=temp->left;
+    temp->left=NULL;
+    temp->left=node->right;
+    node->right=NULL;
+    node->right=temp;
+    // setting parents and ancestors.
+    bstNode * ancestor=temp->parent;
+    node->left->parent=node;
+    node->right->parent=node;
+    if(node->left->right!=NULL)
+        node->left->right->parent=node->left;
+    if(node->right->left!=NULL)
+        node->right->left->parent=node->right;
+    node->parent=ancestor;
+    // setting ancestors child.
+    if(ancestor!=NULL){
+        if(ancestor->left==temp)
+            ancestor->left=node;
+        else    
+            ancestor->right=node;
+
+    }
+    else
+        head=node;
+
+   //resetting temp and ancestor
+   ancestor=NULL;
+   temp=NULL;
 }
 
-void right_left_rotation(bstNode* node){
-    printf("In right->left rotation \n");
-}
 
 void right_right_rotation(bstNode* node){
 
     printf("In right->right rotation \n");
+    bstNode * temp=node;
+    node=node->right;
+    temp->right=NULL;
+    temp->right=node->left;
+    node->left=NULL;
+    node->left=temp;
+    // parents and ancestors
+    bstNode* ancestor=temp->parent;
+    temp->parent=node;
+    if(temp->right!=NULL)
+        temp->right->parent=temp;
+    node->parent=ancestor;
+    // setting ancestor' child.
+    if(ancestor!=NULL){
+        if(ancestor->left==temp)
+            ancestor->left=node;
+        else    
+            ancestor->right=node;
+    }
+    else
+        head=node;
+   // resetting temp and ancestor
+   ancestor=NULL;
+   temp=NULL;
+}
+void right_left_rotation(bstNode* node){
+    printf("In right->left rotation \n");
+    bstNode* temp=node;   
+    node=node->right->left;
+    temp->right->left=NULL;
+    temp->right->left=node->right;
+    node->right=NULL;
+    node->right=temp->right;
+    temp->right=NULL;
+    temp->right=node->left;
+    node->left=NULL;
+    node->left=temp;
+    // setting parents and ancestors
+    bstNode* ancestor=temp->parent;
+    node->left->parent=node;
+    node->right->parent=node;
+    if(node->left->right!=NULL)
+        node->left->right->parent=node->left;
+    if(node->right->left!=NULL)
+        node->right->left->parent=node->right;
+    node->parent=ancestor;
+
+    // setting ancestor' child.
+    if(ancestor!=NULL){
+        if(ancestor->left==temp)
+            ancestor->left=node;
+        else
+           ancestor->right=node;
+    }
+    else
+        head=node;
+    //resetting ancestor and temp
+    ancestor=NULL;
+    temp=NULL;
 }
