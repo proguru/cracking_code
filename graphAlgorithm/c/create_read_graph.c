@@ -7,6 +7,15 @@
 # include <stdlib.h>
 
 #define vMax 100
+// bfs 
+int parent[vMax+1];
+int status[vMax+1];
+// statuses of the status array.
+int undiscovered=-1;
+int discovered=0;
+int processed=1;
+int nill=-1;
+
 // edge struct
 struct edge{
  char x[5];
@@ -56,8 +65,16 @@ int main(int argc, char * argv[]){
             print_graph();
        }
        if(strcmp(command,"free")==0){
-           free_graph(); 
+           free_graph();
+           if(queue_head!=NULL)
+               free_queue(queue_head); 
        }
+       if(strcmp(command,"search")==0){
+            printf("Searching\n");
+            fflush(stdout); 
+            printf("%s",g->uniqueVertex[0]->label);
+            bfs(g->uniqueVertex[0]->label);
+        }
     }
 
     return 0;
@@ -101,6 +118,7 @@ void insertNode(){
             edgeNode* temp=g->uniqueVertex[i]->next;
             g->uniqueVertex[i]->degree++;
             if(temp==NULL){// First case only
+                
                 temp=malloc(sizeof(edgeNode));
                 memset(temp->label,'\0',5);
                 strncpy(temp->label,edges->y,strlen(edges->y));
@@ -225,12 +243,48 @@ void free_graph(){
 }
 
 
-void bfs(graph* g,char* root_vertex){
-    int parent[g->verticies];    
-
+void bfs(char* root_vertex){
+    printf("%s\n",root_vertex);
+    fflush(stdout);
+    int i;
+    for(i=0;i<g->verticies;i++){
+        // notice that the i here corresponds to g->uniqueVertex[i]
+        parent[i]=nill;
+        status[i]=undiscovered; 
+    }   
+    status[search_node(root_vertex)]= discovered;
+    enqueue(root_vertex);   
+    qNode * temp=NULL;
+    temp=dequeue();
+    printf("%s",temp->label);
+    fflush(stdout);
+    while(temp!=NULL){
+        int parent_index=search_node(temp->label);
+        edgeNode* avl_temp=g->uniqueVertex[parent_index]->next;
+        printf("parent %s\n",temp->label);
+        fflush(stdout);
+        while(avl_temp!=NULL){
+            int index=search_node(avl_temp->label); 
+            if(status[index]==undiscovered){
+                status[index]=discovered;
+                parent[index]=parent_index;
+                enqueue(avl_temp->label);
+                printf("child %s\n",avl_temp->label); 
+                fflush(stdout);
+            }                
+            avl_temp=avl_temp->next;
+        }
+        temp->next=NULL;
+        free(temp);
+        temp=NULL;
+       temp=dequeue();
+    }
 }
 
 void dfs(){
+/*
+    Searching in Depth First Search Manner.:w
+*/
 
 }
 

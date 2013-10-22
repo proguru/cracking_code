@@ -2,6 +2,10 @@
 Insert, free  and print a binary search tree.
 Does not support deletion, duplicates.
 The general bstNode datastructure is augmented. It has a 'parent' variable that allows easy deletion and it has height (longest path from parent to root) that is used to keep track of balencing factor. The balancing factor can be atmost (+ or -) 1. When ever the balancing factor is violated Rotation is kicked. The rotation might propogate back to the root, so balancing factor of atmost (+ or -) 1 can be maintained.: 
+
+Issues:
+Tree height for nodes that have been rearranged for balance needs to be updated.
+
 */ 
 
 #include <stdio.h>
