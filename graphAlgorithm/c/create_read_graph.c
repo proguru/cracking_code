@@ -1,7 +1,6 @@
 /*
     Creates a graph.
     Reads graph from a file, if provided else vertices and edges can be dynamically inserted.
-
 */
 # include <stdio.h>
 # include <stdlib.h>
@@ -283,8 +282,7 @@ void bfs(char* root_vertex){
 
 void dfs(){
 /*
-    Searching in Depth First Search Manner.:w
+    Searching in Depth First Search Manner.
 */
 
 }
-
