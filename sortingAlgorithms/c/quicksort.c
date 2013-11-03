@@ -8,7 +8,7 @@ Average case and best case if nlogn, but worst case is n^2.
 int main(){
     int a[10]={15,4,2,22,33,44,6,8,12,37};
     int array_size=sizeof(a)/sizeof(a[1]);
-    quick_sort(a,array_size);
+    quick_sort(a,array_size-1);
     int i;
     printf("\n");
     for(i=0;i<array_size;i++){
